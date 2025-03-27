@@ -6,3 +6,23 @@
   --color-primary-300: #A0A4AB;
   --color-secondary: #1A1B1C;
 }
+
+.home-rectangles {
+  @apply relative w-full h-full
+}
+
+.home-rectangles_img {
+  @apply flex items-center absolute bottom-[46%] gap-2 
+}
+
+.home-button_responsive {
+  @apply max-md:absolute max-md:top-0 max-md:pt-15 max-md:px-5
+}
+
+.intro_btn {
+  @apply flex items-center gap-2 px-2 cursor-pointer
+}
+
+.intro_input {
+  @apply w-full max-w-[60%] border-t-0 border-l-0 border-r-0 border-b-2 text-3xl focus:outline-0 focus-visible:outline-offset-0 placeholder:text-secondary placeholder:text-center text-center max-md:text-[16px] max-md:placeholder:text-[16px]
+}

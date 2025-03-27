@@ -14,7 +14,8 @@ export default function Home() {
       y: 0,
       opacity: 1,
       duration: 0.5,
-      x: isHovering ? "-35%" : 0,
+      x: isHovering ? -250 : 0,
+      ease: "power2.inOut",
     });
 
     gsap.to("#rectangle-left", {
@@ -22,14 +23,20 @@ export default function Home() {
       duration: 0.2,
       delay: 0.5,
     });
+
+    gsap.to("#description", {
+      y: isHovering ? 20 : 0,
+      duration: 0.5,
+      ease: "power2.inOut",
+    });
   }, [isHovering]);
 
   // TODO: Mobile Responsiveness
 
   return (
-    <section className="h-full flex justify-center items-center relative">
+    <section className="h-full flex justify-center items-center relative max-md:flex-col">
       <h1
-        className={`text-center text-9xl font-light transition-all duration-600 translate-y-[35%] opacity-0`}
+        className="text-center text-9xl font-light transition-all duration-600 translate-y-[35%] opacity-0 max-md:text-5xl max-lg:text-7xl"
         id="title"
       >
         Sophisticated
@@ -37,13 +44,13 @@ export default function Home() {
         skincare
       </h1>
 
-      <div className={`absolute left-0`}>
+      <div className="absolute left-0 max-md:left-0 home-button_responsive">
         <div
-          className="relative w-full h-full flex items-center"
+          className="home-rectangles"
           id="rectangle-left"
         >
-          <img src="/assets/rectangle-left.svg" alt="rectangle" />
-          <div className="flex items-center absolute bottom-[46%] cursor-not-allowed left-[20%] gap-2">
+          <img src="/assets/rectangle-left.svg" alt="rectangle" className="max-md:hidden"/>
+          <div className="home-rectangles_img cursor-not-allowed left-[20%]">
             <img
               src="/assets/arrow-left.svg"
               alt="arrow-left"
@@ -54,9 +61,9 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="absolute right-0">
-        <div className="relative w-full h-full">
-          <img src="/assets/rectangle-right.svg" alt="rectangle" />
+      <div className="absolute right-0 max-md:right-12 home-button_responsive">
+        <div className="home-rectangles">
+          <img src="/assets/rectangle-right.svg" alt="rectangle" className="max-md:hidden"/>
           <div className="absolute w-full h-full top-0">
             <img
               src="/assets/rectangle-right.svg"
@@ -73,7 +80,7 @@ export default function Home() {
               } transition-all duration-600`}
             />
           </div>
-          <div className="flex items-center absolute bottom-[46%] right-[20%] gap-2">
+          <div className="home-rectangles_img right-[20%]">
             <h1>Take Test</h1>
             <img
               src={`/assets/arrow-${isHovering ? "expanded" : "right"}.svg`}
@@ -87,8 +94,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 p-12">
-        <p className="max-w-[45%]">
+      <div className="absolute bottom-0 md:left-0 p-12 md:max-w-[30%] text-sm max-md:text-md max-md:text-center" id="description">
+        <p>
           Skinstric developed an A.I. that creates a highly-personalised routine
           tailored to what your skin needs.
         </p>
