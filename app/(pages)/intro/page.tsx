@@ -1,8 +1,8 @@
 "use client";
 
-import InputArea from "@/app/components/InputArea";
-import { InputType, userInfoType } from "@/types";
-import { useRef, useState } from "react";
+import { InputArea, NavigationArrows } from "@/app/components";
+import { InputType } from "@/types";
+import { useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRouter } from "next/navigation";
@@ -39,7 +39,7 @@ const Intro = () => {
   };
 
   const handleProceedButtonClick = () => {
-    inputType === "origin" ? router.push("/analysis") : setInputType("origin");
+    inputType === "origin" ? router.push("/upload") : setInputType("origin");
   };
 
   return (
@@ -50,21 +50,11 @@ const Intro = () => {
         <InputArea inputType={inputType} />
       </div>
 
-      <div className="w-full flex justify-between">
-        <h1 className="intro_btn" onClick={handleBackButtonClick}>
-          <img src="/assets/arrow-left.svg" alt="arrow" />
-          Back
-        </h1>
-
-        <h1
-          className="intro_btn opacity-0"
-          id="proceed_btn"
-          onClick={handleProceedButtonClick}
-        >
-          <img src="/assets/arrow-right.svg" alt="arrow" />
-          Proceed
-        </h1>
-      </div>
+      <NavigationArrows
+        handleLeftArrowClick={handleBackButtonClick}
+        handleRightArrowClick={handleProceedButtonClick}
+        
+      />
     </div>
   );
 };

@@ -14,17 +14,20 @@ const HomeLayout = ({ children }: { children: ReactNode }) => {
       case "/analysis":
         setStatus("ANALYSIS");
         break;
-
+      case "/camera":
+        setStatus("");
       default:
         setStatus("INTRO");
         break;
     }
-  }, []);
+  }, [path]);
 
   return (
     <main className="max-w-8xl mx-auto h-[calc(100vh-40px)] py-4">
       <Navbar />
-      <div className="w-full h-full">{children}</div>
+      <div className="w-full h-full">
+        {children}
+      </div>
     </main>
   );
 };
