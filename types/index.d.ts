@@ -1,24 +1,40 @@
-export type status = "INTRO" | "ANALYSIS" | "";
+type status = "INTRO" | "ANALYSIS" | "";
 
-export type NavStatusTypes = {
+type NavStatusTypes = {
   status: status;
   visible: boolean;
   setStatus: (status: status) => void;
   setVisible: (value: boolean) => void;
-}
-
-export interface userInfoType {
-  name: string;
-  origin: string;
-  image?: string
 };
 
-export interface userInfoHookTypes extends userInfoType {
+interface userInfoType {
+  name: string;
+  origin: string;
+  image?: string;
+}
+
+interface userInfoHookTypes extends userInfoType {
   setImage: (image: string) => void;
   setName: (name: string) => void;
   setOrigin: (origin: string) => void;
 }
 
-export type InputType = "name" | "origin";
+type InputType = "name" | "origin";
 
-export type UploadOptionsType = "camera" | "upload"
+type UploadOptionsType = "camera" | "upload";
+
+type NavigationArrowsTypes = {
+  handleLeftArrowClick: () => void;
+  handleRightArrowClick?: () => void;
+  leftButtonText?: string;
+};
+
+export {
+  status,
+  NavStatusTypes,
+  userInfoType,
+  userInfoHookTypes,
+  InputType,
+  UploadOptionsType,
+  NavigationArrowsTypes,
+};

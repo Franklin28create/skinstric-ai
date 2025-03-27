@@ -7,14 +7,13 @@ import { useState } from "react";
 const Upload = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  
   if (isLoading) return <Loader />;
 
   return (
     <div className="px-8 h-full flex flex-col">
       <h1 className="uppercase font-bold">To Start Analysis</h1>
 
-      <div className="flex-1 flex items-center justify-center mx-auto w-full gap-10">
+      <div className="flex-1 flex items-center justify-center mx-auto w-full gap-10 max-md:flex-col">
         <UploadOptions option="camera" setIsLoading={setIsLoading} />
         <UploadOptions option="upload" setIsLoading={setIsLoading} />
       </div>
