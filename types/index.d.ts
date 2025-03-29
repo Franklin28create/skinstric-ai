@@ -7,6 +7,11 @@ type NavStatusTypes = {
   setVisible: (value: boolean) => void;
 };
 
+type CameraStatusTypes = {
+isCameraOn: boolean,
+setIsCameraOn: (value: boolean) => void
+}
+
 interface userInfoType {
   name: string;
   origin: string;
@@ -27,7 +32,26 @@ type NavigationArrowsTypes = {
   handleLeftArrowClick: () => void;
   handleRightArrowClick?: () => void;
   leftButtonText?: string;
+  isConfirmButton?: boolean;
+  setConfirmedDemographics?: React.Dispatch<
+    React.SetStateAction<DemographicsState>
+  >;
 };
+
+type DemographicsState = {
+  race: boolean;
+  gender: boolean;
+  age: boolean;
+};
+
+interface DemographicsOptions {
+  option: CurrentDemographicsType;
+  confirmedDemographics: DemographicsState;
+  currentDemographic: CurrentDemographicsType;
+  setCurrentDemographic: React.SetStateAction<CurrentDemographicsType>;
+  userDemographics: DemographicsType;
+  selectedDemographics: any;
+}
 
 interface Race {
   black: number;
@@ -54,15 +78,42 @@ interface Gender {
   female: number;
 }
 
-type CurrentDemographicsType = "race" | "sex" | "gender";
-
 type DemographicsType = Race | Age | Gender;
+
+type userDemographicsType = {
+  race: Race;
+  age: Age;
+  gender: Gender;
+};
+type CurrentDemographicsType = keyof userDemographicsType;
 
 type Demographics = {
   age: Age;
   race: Race;
   gender: Gender;
 };
+
+interface CircularProgressProps {
+  percentage: number | undefined;
+  color?: string;
+}
+
+type ModalProps = {
+  option: UploadOptionsType;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+  showModal?: boolean;
+  setShowModal?: Dispatch<SetStateAction<boolean>>;
+  setIsCameraLoader?: Dispatch<SetStateAction<boolean>>;
+};
+
+interface DemographicPossibilityProps {
+  demographic: string;
+  value: number;
+  confirmedDemographics: Demographics;
+  currentDemographic: CurrentDemographicsType;
+  selectedDemographics: any;
+  setSelectedDemographics: React.Dispatch<React.SetStateAction<any>>;
+}
 
 export {
   status,
@@ -78,4 +129,11 @@ export {
   Gender,
   DemographicsType,
   Demographics,
+  CircularProgressProps,
+  DemographicsState,
+  DemographicPossibilityProps,
+  userDemographicsType,
+  DemographicsOptions,
+  ModalProps,
+  CameraStatusTypes
 };

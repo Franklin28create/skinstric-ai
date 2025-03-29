@@ -4,7 +4,7 @@ import axios from "axios";
 const addUser = async (userInfo: userInfoType) => {
   try {
     const { name, origin } = userInfo;
-    const response = await axios.post(
+    await axios.post(
       "/api/skinstricPhaseOne",
       {
         name: name,
@@ -17,7 +17,7 @@ const addUser = async (userInfo: userInfoType) => {
       }
     );
 
-    return { success: true, response: response.data };
+    return { success: true };
   } catch (error) {
     console.log("Error while adding user: ", error);
     return { success: false };

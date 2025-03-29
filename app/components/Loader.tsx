@@ -6,12 +6,17 @@ import { useNavStatus } from "../store/useNavStatus";
 import { useUserInfo } from "../store/useUserInfo";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import CameraCaption from "./CameraCaption";
+import { useRouter } from "next/navigation";
 
-const Loader = () => {
-// TODO: Implement isAILoader variable and reuse "TO GET BETTER RESULTS" component here and on camera
-// for the camera component we can add a new layout.tsx outside of the root that has w-screen & h-screen
+const Loader = ({ isCameraLoader }: { isCameraLoader: boolean }) => {
+  const [loadedImages, setLoadedImages] = useState(0);
+  const [isAnimationActive, setIsAnimationActive] = useState<boolean>(false);
+  const { image } = useUserInfo();
+  const router = useRouter();
 
   const { visible, setVisible } = useNavStatus();
+
   useEffect(() => {
     if (!visible) setVisible(false);
     return () => {
@@ -19,13 +24,14 @@ const Loader = () => {
     };
   }, []);
 
-  const [loadedImages, setLoadedImages] = useState(0);
-  const [isAnimationActive, setIsAnimationActive] = useState<boolean>(false);
-  const { image } = useUserInfo();
   useEffect(() => {
-    const storedImage = localStorage.getItem("image");
-    if (!storedImage) {
-      if (image) localStorage.setItem("image", image);
+    if (isCameraLoader) {
+      setTimeout(() => {
+        router.push("/camera");
+      }, 2000);
+    } else {
+      const storedImage = localStorage.getItem("image");
+      if (!storedImage) if (image) localStorage.setItem("image", image);
     }
   }, []);
 
@@ -54,7 +60,7 @@ const Loader = () => {
   }, [isAnimationActive]);
 
   return (
-    <div className="w-full h-full flex justify-center items-center">
+    <div className="w-full h-full flex justify-center items-center relative">
       <div className="w-full h-full flex md:max-w-[50%] relative">
         <div className="flex-1 relative">
           {loadingImages.map((imageUrl, i) => (
@@ -72,11 +78,23 @@ const Loader = () => {
               onLoad={() => setLoadedImages((prev) => prev + 1)}
             />
           ))}
-          <h1 className="absolute_center uppercase max-lg:text-center">
-            Preparing your <br className="hidden max-md:block" /> analysis ...
-          </h1>
+          {isCameraLoader ? (
+            <div className="absolute_center flex flex-col items-center justify-center">
+              <img src="/assets/camera.svg" alt="camera" />
+              <h1 className="uppercase font-bold">Setting up camera...</h1>
+            </div>
+          ) : (
+            <h1 className="absolute_center uppercase max-lg:text-center">
+              Preparing your <br className="hidden max-md:block" /> analysis ...
+            </h1>
+          )}
         </div>
       </div>
+      {isCameraLoader && (
+        <div className="absolute bottom-25 max-sm:max-w-[90vw]">
+          <CameraCaption />
+        </div>
+      )}
     </div>
   );
 };

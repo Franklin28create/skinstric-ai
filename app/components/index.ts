@@ -3,6 +3,8 @@ import Navbar from "@/app/components/Navbar";
 import NavigationArrows from "./NavigationArrows";
 import UploadOptions from "./UploadOptions";
 import Loader from "@/app/components/Loader";
+import CircularProgress from "./CircularProgress";
+import CameraCaption from "./CameraCaption";
+import CameraButtons from "./CameraButtons";
 
-
-export { InputArea, Navbar, NavigationArrows, UploadOptions, Loader };
+export { InputArea, Navbar, NavigationArrows, UploadOptions, Loader, CircularProgress, CameraCaption, CameraButtons };

@@ -1,26 +1,28 @@
-import { UploadOptionsType } from "@/types";
-import { Dispatch, SetStateAction, useRef } from "react";
+import { ModalProps } from "@/types";
+import { useRef } from "react";
 import { useUserInfo } from "../store/useUserInfo";
 import { redirect } from "next/navigation";
 import { useNavStatus } from "../store/useNavStatus";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { useRouter } from "next/navigation";
 
 const Upload = ({
   option,
   setIsLoading,
-}: {
-  option: UploadOptionsType;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
-}) => {
+  showModal,
+  setShowModal,
+  setIsCameraLoader,
+}: ModalProps) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const { image, setImage } = useUserInfo();
+  const { setImage } = useUserInfo();
   const { setVisible } = useNavStatus();
+  const router = useRouter();
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
   };
-  // TODO: Fetch AI API
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsLoading(true);
     setVisible(false);
@@ -45,14 +47,53 @@ const Upload = ({
       return (
         <div className="absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%]">
           <div className="relative w-full h-full">
-            <img src="/assets/camera.svg" alt="camera" id="camera_icon" />
-            <div className="border w-[45px] -rotate-45 absolute top-[12px] right-[6%] max-md:right-[4%] translate-x-[50%]" />
-            <div className="border w-[5px] h-[5px] absolute top-0 rounded-full right-0 translate-x-[225%] max-md:translate-x-[280%] -translate-y-[135%]" />
-            <h1 className="absolute top-0 right-0 translate-x-[115%] -translate-y-[65%] max-md:-translate-y-[60%] font-light uppercase">
+            <img
+              src="/assets/camera.svg"
+              alt="camera"
+              id="camera_icon"
+              onClick={() => {
+                console.log("this ran", showModal);
+                setShowModal(true);
+              }}
+            />
+            <div className="upload_line-primary" />
+            <div className="upload_bullet-point-primary" />
+            <h1 className="upload_sub-title-primary">
               Allow A.I to
               <br />
               scan your face
             </h1>
+
+            <div
+              className={`md:w-[25vw] md:h-[10vw] lg:h-[8vw] lg:w-[20vw] max-md:w-[30vw] max-md:h-[20vw] max-sm:h-[30vw] border absolute top-[25%] left-[100%] translate-x-[10%] py-2 px-3 text-white bg-secondary flex flex-col justify-between transition-opacity duration-300
+                ${!showModal && "opacity-0"}
+                `}
+            >
+              <h1 className="font-light md:text-[calc(100vw/90)] max-md:text-[16px] max-sm:text-[12px]">
+                Allow A.I. to access your camera
+              </h1>
+
+              <div className="flex flex-col justify-end">
+                <hr className="w-full border-white" />
+                <div className="flex justify-end py-[4px] gap-4">
+                  <button
+                    className="text-primary-300 capitalize hover:text-primary-100 transition-colors duration-300 cursor-pointer md:text-[calc(100vw/90)] max-sm:text-[12px]"
+                    onClick={() => setShowModal(false)}
+                  >
+                    Deny
+                  </button>
+                  <button
+                    className="capitalize cursor-pointer md:text-[calc(100vw/90)] max-sm:text-[12px]"
+                    onClick={() => {
+                      setIsCameraLoader(true);
+                      setIsLoading(true);
+                    }}
+                  >
+                    Allow
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       );
@@ -64,9 +105,9 @@ const Upload = ({
             alt="camera"
             onClick={handleImageClick}
           />
-          <div className="border w-[45px] -rotate-45 absolute bottom-0 left-[35%] max-md:right-[4%] -translate-x-[100%]" />
-          <div className="border w-[5px] h-[5px] absolute bottom-0 rounded-full left-0 max-md:left-[7%] max-md:-translate-x-[65%] max-sm:-translate-x-[200%] translate-x-[100%] translate-y-[385%]" />
-          <h1 className="absolute bottom-0 left-0 -translate-x-[100%]  max-md:-translate-x-[105%] translate-y-[100%] max-md:translate-y-[68%] font-light text-right uppercase">
+          <div className="upload_line-secondary" />
+          <div className="upload_bullet-point-secondary" />
+          <h1 className="upload_sub-title-secondary">
             Allow A.I. access Gallery
           </h1>
           <input
@@ -86,10 +127,10 @@ const Upload = ({
 const UploadOptions = ({
   option,
   setIsLoading,
-}: {
-  option: UploadOptionsType;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
-}) => {
+  showModal,
+  setShowModal,
+  setIsCameraLoader,
+}: ModalProps) => {
   useGSAP(() => {
     gsap.to("#camera_icon", {
       rotation: 360,
@@ -106,7 +147,13 @@ const UploadOptions = ({
         className="w-full pointer-events-none rombus_img"
         alt="rombuses"
       />
-      <Upload option={option} setIsLoading={setIsLoading} />
+      <Upload
+        option={option}
+        setIsLoading={setIsLoading}
+        showModal={showModal}
+        setShowModal={setShowModal}
+        setIsCameraLoader={setIsCameraLoader}
+      />
     </div>
   );
 };

@@ -5,16 +5,18 @@ const loadingImages = [
 ];
 
 const analysisOptions = [
-  'Skin Type Details',
-  'Demographics',
-  'Cosmetic Concerns',
-  'Weather',
-]
+  "Skin Type Details",
+  "Demographics",
+  "Cosmetic Concerns",
+  "Weather",
+];
 
-const demographicOptions = [
-  'race',
-  'age',
-  'gender'
-]
+const demographicOptions = ["race", "age", "gender"];
 
-export { loadingImages, analysisOptions, demographicOptions };
+const CameraSubtitles = [
+  "Neutral Expression",
+  "Frontal Pose",
+  "Adequate Lighting",
+];
+
+export { loadingImages, analysisOptions, demographicOptions, CameraSubtitles };

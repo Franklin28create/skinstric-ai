@@ -104,7 +104,7 @@ export default function Home() {
       </div>
 
       <div
-        className="absolute bottom-0 max-sm:bottom-4 md:left-0 p-12 md:max-w-[30%] text-sm max-md:text-md max-md:text-center"
+        className="absolute bottom-0 max-sm:bottom-4 md:left-0 p-12 md:max-w-[30%] text-sm max-md:text-md max-md:text-center -z-1"
         id="description"
       >
         <p>

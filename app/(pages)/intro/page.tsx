@@ -42,10 +42,8 @@ const Intro = () => {
   const handleProceedButtonClick = async () => {
     if (inputType === "origin") {
       try {
-        const { success, response } = await addUser(userInfo);
+        const { success } = await addUser(userInfo);
         if (success) {
-          alert(`${response.message}`);
-
           localStorage.setItem("name", userInfo.name);
           localStorage.setItem("location", userInfo.origin);
 

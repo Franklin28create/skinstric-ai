@@ -2,31 +2,64 @@
 
 @theme {
   --color-primary-100: #fcfcfc;
+  --color-primary-150: #f3f3f4;
   --color-primary-200: #e1e1e2;
-  --color-primary-300: #A0A4AB;
-  --color-secondary: #1A1B1C;
+  --color-primary-300: #a0a4ab;
+  --color-secondary: #1a1b1c;
 }
 
 .home-rectangles {
-  @apply relative w-full h-full
+  @apply relative w-full h-full;
 }
 
 .home-rectangles_img {
-  @apply flex items-center absolute bottom-[46%] gap-2 
+  @apply flex items-center absolute bottom-[46%] gap-2;
 }
 
 .home-button_responsive {
-  @apply max-md:absolute max-md:bottom-0 max-md:pt-15 max-md:px-5
+  @apply max-md:absolute max-md:bottom-0 max-md:pt-15 max-md:px-5;
 }
 
 .intro_btn {
-  @apply flex items-center gap-2 px-2 cursor-pointer
+  @apply flex items-center gap-2 px-2 cursor-pointer;
 }
 
 .intro_input {
-  @apply w-full max-w-[60%] border-t-0 border-l-0 border-r-0 border-b-2 text-3xl focus:outline-0 focus-visible:outline-offset-0 placeholder:text-secondary placeholder:text-center text-center max-md:text-[16px] max-md:placeholder:text-[16px]
+  @apply w-full max-w-[60%] border-t-0 border-l-0 border-r-0 border-b-2 text-3xl focus:outline-0 focus-visible:outline-offset-0 placeholder:text-secondary placeholder:text-center text-center max-md:text-[16px] max-md:placeholder:text-[16px];
 }
 
 .absolute_center {
-  @apply absolute -translate-y-[50%] -translate-x-[50%] top-[50%] left-[50%]
+  @apply absolute -translate-y-[50%] -translate-x-[50%] top-[50%] left-[50%];
+}
+
+.reset_btn {
+  @apply py-[10px] px-[16px] border-2 font-light cursor-pointer;
+}
+
+.confirm_btn {
+  @apply py-[10px] px-[16px] text-white bg-secondary font-light cursor-pointer;
+}
+
+.upload_sub-title-primary {
+  @apply absolute top-0 right-0 translate-x-[115%] -translate-y-[65%] max-md:-translate-y-[60%] font-light uppercase
+}
+
+.upload_sub-title-secondary {
+  @apply absolute bottom-0 left-0 -translate-x-[100%]  max-md:-translate-x-[105%] translate-y-[100%] max-md:translate-y-[68%] font-light text-right uppercase
+}
+
+.upload_line-primary {
+  @apply border w-[45px] -rotate-45 absolute top-[12px] right-[6%] max-md:right-[4%] translate-x-[50%];
+}
+
+.upload_line-secondary {
+  @apply border w-[45px] -rotate-45 absolute bottom-0 left-[35%] max-md:right-[4%] -translate-x-[100%];
+}
+
+.upload_bullet-point-primary {
+  @apply border w-[5px] h-[5px] absolute top-0 rounded-full right-0 translate-x-[225%] max-md:translate-x-[280%] -translate-y-[135%];
+}
+
+.upload_bullet-point-secondary {
+  @apply border w-[5px] h-[5px] absolute bottom-0 rounded-full left-0 max-md:left-[7%] max-md:-translate-x-[65%] max-sm:-translate-x-[200%] translate-x-[100%] translate-y-[385%];
 }

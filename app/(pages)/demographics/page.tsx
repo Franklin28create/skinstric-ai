@@ -1,63 +1,52 @@
+// @ts-nocheck
 "use client";
 
-import { NavigationArrows } from "@/app/components";
+import { NavigationArrows, CircularProgress } from "@/app/components";
 import { scanImage } from "@/lib/actions/user.actions";
-import { convertToPercentages } from "@/lib/utils/utils";
-import { DemographicsType, CurrentDemographicsType } from "@/types";
-import { redirect, useRouter } from "next/navigation";
+import { getDefaultValues, setupDemographicData } from "@/lib/utils/utils";
+import { CurrentDemographicsType, DemographicsState } from "@/types";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { demographicOptions } from "@/constants";
+import DemographicPossibility from "@/app/components/DemographicPossibility";
+import DemographicOptionsButton from "@/app/components/DemographicOptionsButton";
+import { useUserInfo } from "@/app/store/useUserInfo";
 
 const Demographics = () => {
   const router = useRouter();
-  const [userDemographics, setUserDemographics] = useState({});
+  const [userDemographics, setUserDemographics] = useState<any>({});
+  const [currentPercentage, setCurrentPercentage] = useState<number>();
+  const { image: savedImage } = useUserInfo();
   const [currentDemographic, setCurrentDemographic] =
     useState<CurrentDemographicsType>("race");
+
+  const [confirmedDemographics, setConfirmedDemographics] =
+    useState<DemographicsState>({
+      race: false,
+      gender: false,
+      age: false,
+    });
+
   const [selectedDemographics, setSelectedDemographics] = useState<any>({
-    race: "",
-    gender: "",
-    age: "",
+    race: {},
+    gender: {},
+    age: {},
   });
 
-  const sortDemographics = (demographic: CurrentDemographicsType) => {
-    const sortedEntries = Object.entries(demographic)
-      .map(([key, value]) => [key, Number(value)])
-      .sort((a, b) => b[1] - a[1]);
-
-    return Object.fromEntries(sortedEntries);
-  };
-
   useEffect(() => {
-    const image = localStorage.getItem("image");
+    const image = localStorage.getItem("image") || savedImage;
+
     if (!image) {
       alert("You'll need to tell us a bit about yourself first!");
-      redirect("/intro");
+      router.push("/intro");
     } else {
       try {
         const sendImage = async (image: string) => {
           const response = await scanImage(image);
           const { data } = await response?.data;
-          let updatedDemographics: any = {};
-          for (const demographic in data) {
-            let updatedValues = convertToPercentages(
-              data[demographic] as DemographicsType
-            );
-            updatedDemographics = {
-              ...updatedDemographics,
-              [demographic]: updatedValues,
-            };
-          }
-          let sortedDemographics: any = {};
-          for (const demographic in updatedDemographics) {
-            const sortedValues = sortDemographics(
-              updatedDemographics[demographic] as CurrentDemographicsType
-            );
-            sortedDemographics = {
-              ...sortedDemographics,
-              [demographic]: sortedValues,
-            };
-          }
-
+          const sortedDemographics = setupDemographicData(data);
+          const defaultValues = getDefaultValues(sortedDemographics);
+          setSelectedDemographics({ ...defaultValues });
           setUserDemographics(sortedDemographics);
         };
 
@@ -69,58 +58,73 @@ const Demographics = () => {
   }, []);
 
   useEffect(() => {
-    if (Object.keys(userDemographics).length > 0) {
-      // TODO: Implement default values: setDefaultValues() OR have separate states for each individual demographic setRace, etc.
+    if (Object.keys(selectedDemographics[currentDemographic]).length > 0) {
+      const newPercentage = Object.values(
+        selectedDemographics[currentDemographic]
+      )[0];
+      setCurrentPercentage(newPercentage as number);
     }
-  }, [userDemographics]);
+  }, [userDemographics, selectedDemographics[currentDemographic]]);
 
-  const getDominantDemographic = (option: CurrentDemographicsType) =>
-    Object.entries(userDemographics[option])[0][0];
+  const handleConfirm = () => {
+    setConfirmedDemographics({
+      ...confirmedDemographics,
+      [currentDemographic]: true,
+    });
+  };
 
   return (
-    <div className="px-8 h-full w-full relative flex flex-col gap-2 overflow-x-hidden">
+    <div className="px-8 h-full w-full md:relative flex flex-col gap-2 md:overflow-hidden max-sm:my-2">
       <div className="flex flex-col">
         <h1 className="uppercase font-light text-xl">A.I Analysis</h1>
-        <h1 className="uppercase font-bold text-7xl">Demographics</h1>
+        <h1 className="uppercase font-bold text-3xl md:text-7xl">
+          Demographics
+        </h1>
         <p className="uppercase text-primary-300 text-sm">
           Predicted age & race
         </p>
       </div>
 
-      <div className="flex-1 flex gap-2">
-        <div className="w-[15%] h-full flex flex-col gap-1">
+      <div className="flex-1 flex gap-2 max-sm:flex-col">
+        <div className="w-full md:w-[15%] h-full flex flex-col gap-1">
           {demographicOptions.map((option, i) => (
-            <div
+            <DemographicOptionsButton
               key={i}
-              className={`h-[104px] flex justify-between flex-col ${
-                currentDemographic === option
-                  ? "bg-secondary text-white"
-                  : "bg-primary-100 hover:bg-primary-200 border-t-2"
-              } transition-colors duration-400`}
-              onClick={() => {
-                if (currentDemographic !== option)
-                  setCurrentDemographic(option as CurrentDemographicsType);
-              }}
-            >
-              <div>
-                {Object.keys(userDemographics).length > 0 ? (
-                  <h1 className="capitalize">
-                    {selectedDemographics[option] ||
-                      getDominantDemographic(option as CurrentDemographicsType)}
-                  </h1>
-                ) : (
-                  <h1>Loading...</h1>
-                )}
-              </div>
-
-              <h1 className="uppercase">{option}</h1>
-            </div>
+              option={option}
+              confirmedDemographics={confirmedDemographics}
+              currentDemographic={currentDemographic}
+              userDemographics={userDemographics}
+              setCurrentDemographic={setCurrentDemographic}
+              selectedDemographics={selectedDemographics}
+            />
           ))}
         </div>
 
-        <div className="w-[60%] border h-full"></div>
+        <div className="w-full md:w-[60%] h-full max-h-[60vh] bg-primary-150 border-t-2">
+          <h1 className="text-4xl capitalize font-light p-2">
+            {Object.keys(selectedDemographics[currentDemographic])}
+          </h1>
 
-        <div className="w-[25%] border-t-2 h-full">
+          <div className="flex h-full max-h-[70vh] pb-20">
+            <div className="w-full flex justify-end pt-8 px-10">
+              <div className="relative w-full max-w-[25vw] h-full max-h-[25vw] self-end">
+                <CircularProgress
+                  percentage={currentPercentage}
+                  color="black"
+                />
+                <h1 className="absolute_center text-4xl flex font-light max-sm:text-2xl relative">
+                  {currentPercentage ? `${currentPercentage}` : "0"}
+                  &nbsp;
+                  <span className="text-2xl -translate-y-[25%] max-sm:text-sm max-sm:absolute max-sm:top-0 max-sm:right-0 max-sm:translate-x-[75%]">
+                    %
+                  </span>
+                </h1>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full md:w-[25%] border-t-2 h-full max-h-[60vh] bg-primary-150">
           <div className="w-full flex justify-between p-2">
             <h1 className="uppercase font-extralight text-sm">
               {currentDemographic}
@@ -128,52 +132,36 @@ const Demographics = () => {
             <p className="uppercase font-light text-sm">A.I Condfidence</p>
           </div>
 
-          <div className="px-2 flex flex-col h-full">
+          <div className="flex flex-col h-full">
             {Object.keys(userDemographics).length > 0 ? (
               <>
                 {Object.entries(userDemographics[currentDemographic]).map(
-                  ([key, value], index) => (
-                    <div
-                      className={`flex justify-between border cursor-pointer ${
-                        selectedDemographics[currentDemographic] === key
-                          ? "bg-secondary text-white"
-                          : "bg-primary-100 hover:bg-primary-200 transition-colors duration-300"
-                      }`}
-                      key={key}
-                      onClick={() => {
-                        if (selectedDemographics[currentDemographic] !== key) {
-                          setSelectedDemographics({
-                            ...selectedDemographics,
-                            [currentDemographic]: key,
-                          });
-                        }
-                      }}
-                    >
-                      <h2 className="flex gap-2">
-                        <img
-                          src={
-                            selectedDemographics[currentDemographic] === key
-                              ? "/assets/radio-button_selected.svg"
-                              : "/assets/radio-button.svg"
-                          }
-                          alt=""
-                        />
-                        <span>{key}</span>
-                      </h2>
-
-                      <p>{value as string} %</p>
-                    </div>
+                  ([demographic, value]) => (
+                    <DemographicPossibility
+                      confirmedDemographics={confirmedDemographics}
+                      demographic={demographic}
+                      key={demographic}
+                      value={value as number}
+                      currentDemographic={currentDemographic}
+                      selectedDemographics={selectedDemographics}
+                      setSelectedDemographics={setSelectedDemographics}
+                    />
                   )
                 )}
               </>
             ) : (
-              <p>Loading...</p>
+              <p className="font-light text-center my-auto pb-20">Loading...</p>
             )}
           </div>
         </div>
       </div>
 
-      <NavigationArrows handleLeftArrowClick={() => router.back()} />
+      <NavigationArrows
+        handleLeftArrowClick={() => router.back()}
+        isConfirmButton
+        handleRightArrowClick={handleConfirm}
+        setConfirmedDemographics={setConfirmedDemographics}
+      />
     </div>
   );
 };
