@@ -4,4 +4,17 @@ const loadingImages = [
   "/assets/rombus-loader_3.svg",
 ];
 
-export { loadingImages };
+const analysisOptions = [
+  'Skin Type Details',
+  'Demographics',
+  'Cosmetic Concerns',
+  'Weather',
+]
+
+const demographicOptions = [
+  'race',
+  'age',
+  'gender'
+]
+
+export { loadingImages, analysisOptions, demographicOptions };

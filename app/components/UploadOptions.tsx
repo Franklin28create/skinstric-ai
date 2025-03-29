@@ -14,7 +14,7 @@ const Upload = ({
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 }) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const { setImage } = useUserInfo();
+  const { image, setImage } = useUserInfo();
   const { setVisible } = useNavStatus();
 
   const handleImageClick = () => {
@@ -31,11 +31,10 @@ const Upload = ({
         setImage(reader.result as string);
       };
       reader.readAsDataURL(file);
-
       setTimeout(() => {
         setIsLoading(false);
         redirect("/analysis");
-      }, 20000);
+      }, 2000);
     } else {
       alert("Error Trying to upload image, please try again!");
     }
@@ -66,7 +65,7 @@ const Upload = ({
             onClick={handleImageClick}
           />
           <div className="border w-[45px] -rotate-45 absolute bottom-0 left-[35%] max-md:right-[4%] -translate-x-[100%]" />
-          <div className="border w-[5px] h-[5px] absolute bottom-0 rounded-full left-0 max-md:left-[7%] max-md:-translate-x-[60%] max-sm:-translate-x-[75%] translate-x-[100%] translate-y-[385%]" />
+          <div className="border w-[5px] h-[5px] absolute bottom-0 rounded-full left-0 max-md:left-[7%] max-md:-translate-x-[65%] max-sm:-translate-x-[200%] translate-x-[100%] translate-y-[385%]" />
           <h1 className="absolute bottom-0 left-0 -translate-x-[100%]  max-md:-translate-x-[105%] translate-y-[100%] max-md:translate-y-[68%] font-light text-right uppercase">
             Allow A.I. access Gallery
           </h1>

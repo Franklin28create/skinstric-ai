@@ -20,8 +20,8 @@ export default function Home() {
       y: 0,
       opacity: 1,
       duration: 0.5,
-      x: isHovering ? -250 : 0,
-      ease: "power2.inOut",
+      x: isHovering ? '-13.5vw' : 0,
+      ease: "none",
     });
 
     gsap.to("#rectangle-left", {
@@ -38,7 +38,7 @@ export default function Home() {
   }, [isHovering]);
 
   return (
-    <section className="h-full flex justify-center items-center relative max-md:flex-col">
+    <section className="h-full flex justify-center items-center relative">
       <h1
         className="text-center text-9xl font-light transition-all duration-600 translate-y-[35%] opacity-0 max-md:text-5xl max-lg:text-7xl"
         id="title"
@@ -104,7 +104,7 @@ export default function Home() {
       </div>
 
       <div
-        className="absolute bottom-0 md:left-0 p-12 md:max-w-[30%] text-sm max-md:text-md max-md:text-center"
+        className="absolute bottom-0 max-sm:bottom-4 md:left-0 p-12 md:max-w-[30%] text-sm max-md:text-md max-md:text-center"
         id="description"
       >
         <p>

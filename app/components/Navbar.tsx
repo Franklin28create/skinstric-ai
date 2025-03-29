@@ -9,7 +9,7 @@ const Navbar = () => {
   if (!visible) return null;
 
   return (
-    <div className="flex w-full justify-between px-8 max-md:px-4 items-center h-[40px]">
+    <div className="flex w-full absolute top-0 justify-between mt-[1%] px-8 max-md:px-4 items-center h-[40px]">
       <div className="flex gap-3">
         <h1
           className="font-semibold uppercase cursor-pointer"

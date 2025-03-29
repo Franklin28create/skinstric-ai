@@ -53,12 +53,13 @@ const InputArea = ({ inputType }: { inputType: InputType }) => {
         <img
           src="/assets/rombuses.svg"
           alt="rombuses"
-          className="w-full rombuses_img"
+          className="flex-1 rombuses_img"
         />
         <div className="absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] flex flex-col w-full items-center">
           <label className="uppercase text-primary-300 gsap-opacity opacity-0 max-md:text-[20px]">
             Click to Type
           </label>
+          {/* @ts-ignore */}
           <Input
             type={inputType}
             name={name}

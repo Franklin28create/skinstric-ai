@@ -16,7 +16,7 @@
 }
 
 .home-button_responsive {
-  @apply max-md:absolute max-md:top-0 max-md:pt-15 max-md:px-5
+  @apply max-md:absolute max-md:bottom-0 max-md:pt-15 max-md:px-5
 }
 
 .intro_btn {
@@ -27,6 +27,6 @@
   @apply w-full max-w-[60%] border-t-0 border-l-0 border-r-0 border-b-2 text-3xl focus:outline-0 focus-visible:outline-offset-0 placeholder:text-secondary placeholder:text-center text-center max-md:text-[16px] max-md:placeholder:text-[16px]
 }
 
-.rombus_loader {
-  @apply absolute top-[50%] -translate-x-[50%] -translate-y-[50%] left-[50%]
+.absolute_center {
+  @apply absolute -translate-y-[50%] -translate-x-[50%] top-[50%] left-[50%]
 }

@@ -23,7 +23,7 @@ const HomeLayout = ({ children }: { children: ReactNode }) => {
   }, [path]);
 
   return (
-    <main className="max-w-8xl mx-auto h-[calc(100vh-40px)] py-4">
+    <main className="max-w-8xl mx-auto h-screen py-4 overflow-y-auto pt-12">
       <Navbar />
       <div className="w-full h-full">
         {children}

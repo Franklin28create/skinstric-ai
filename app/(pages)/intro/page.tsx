@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRouter } from "next/navigation";
 import { useUserInfo } from "@/app/store/useUserInfo";
+import { addUser } from "@/lib/actions/user.actions";
 
 const Intro = () => {
   // TODO: Add data to database in handleProceedButton function
@@ -38,13 +39,29 @@ const Intro = () => {
     inputType === "origin" ? setInputType("name") : router.push("/");
   };
 
-  const handleProceedButtonClick = () => {
-    inputType === "origin" ? router.push("/upload") : setInputType("origin");
+  const handleProceedButtonClick = async () => {
+    if (inputType === "origin") {
+      try {
+        const { success, response } = await addUser(userInfo);
+        if (success) {
+          alert(`${response.message}`);
+
+          localStorage.setItem("name", userInfo.name);
+          localStorage.setItem("location", userInfo.origin);
+
+          router.push("/upload");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else setInputType("origin");
   };
 
   return (
-    <div className="px-8 h-full flex flex-col">
-      <h1 className="uppercase font-bold">To start analysis</h1>
+    <section className="h-full flex flex-col relative">
+      <h1 className="uppercase font-bold pl-8 max-md:pl-4">
+        To start analysis
+      </h1>
 
       <div className="flex-1 flex items-center justify-center" id="input_area">
         <InputArea inputType={inputType} />
@@ -53,9 +70,8 @@ const Intro = () => {
       <NavigationArrows
         handleLeftArrowClick={handleBackButtonClick}
         handleRightArrowClick={handleProceedButtonClick}
-        
       />
-    </div>
+    </section>
   );
 };
 

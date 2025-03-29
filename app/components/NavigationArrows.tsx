@@ -6,7 +6,7 @@ const NavigationArrows = ({
   leftButtonText = "Proceed",
 }: NavigationArrowsTypes) => {
   return (
-    <div className="w-full flex justify-between">
+    <div className="w-full flex justify-between absolute bottom-2 px-4 z-20">
       <button className="intro_btn" onClick={handleLeftArrowClick}>
         <img src="/assets/arrow-left.svg" alt="arrow" />
         Back
