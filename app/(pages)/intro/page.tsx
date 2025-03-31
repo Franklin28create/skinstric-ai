@@ -10,8 +10,6 @@ import { useUserInfo } from "@/app/store/useUserInfo";
 import { addUser } from "@/lib/actions/user.actions";
 
 const Intro = () => {
-  // TODO: Add data to database in handleProceedButton function
-
   const router = useRouter();
   const [inputType, setInputType] = useState<InputType>("name");
   const userInfo = useUserInfo();
@@ -42,8 +40,9 @@ const Intro = () => {
   const handleProceedButtonClick = async () => {
     if (inputType === "origin") {
       try {
-        const { success } = await addUser(userInfo);
-        if (success) {
+        const { message } = await addUser(userInfo);
+        if (message) {
+          alert(message);
           localStorage.setItem("name", userInfo.name);
           localStorage.setItem("location", userInfo.origin);
 
@@ -51,6 +50,7 @@ const Intro = () => {
         }
       } catch (error) {
         console.log(error);
+        alert(error);
       }
     } else setInputType("origin");
   };

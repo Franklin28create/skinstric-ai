@@ -4,10 +4,12 @@ import axios from "axios";
 const addUser = async (userInfo: userInfoType) => {
   try {
     const { name, origin } = userInfo;
-    await axios.post(
-      "/api/skinstricPhaseOne",
+    const {
+      data: { message },
+    } = await axios.post(
+      "/api/users",
       {
-        name: name,
+        name,
         location: origin,
       },
       {
@@ -17,17 +19,19 @@ const addUser = async (userInfo: userInfoType) => {
       }
     );
 
-    return { success: true };
-  } catch (error) {
+    return { message };
+  } catch (error: any) {
     console.log("Error while adding user: ", error);
-    return { success: false };
+    const errorMessage =
+      error?.response?.data?.error || "Something went wrong!";
+    return { error: errorMessage };
   }
 };
 
 const scanImage = async (image: string) => {
   try {
     const response = await axios.post(
-      "/api/skinstricPhaseTwo",
+      "https://us-central1-api-skinstric-ai.cloudfunctions.net/skinstricPhaseTwo",
       { image },
       {
         headers: {
