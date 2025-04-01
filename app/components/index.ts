@@ -6,5 +6,7 @@ import Loader from "@/app/components/Loader";
 import CircularProgress from "./CircularProgress";
 import CameraCaption from "./CameraCaption";
 import CameraButtons from "./CameraButtons";
+import DemographicPossibility from "@/app/components/DemographicPossibility";
 
-export { InputArea, Navbar, NavigationArrows, UploadOptions, Loader, CircularProgress, CameraCaption, CameraButtons };
+
+export { InputArea, Navbar, NavigationArrows, UploadOptions, Loader, CircularProgress, CameraCaption, CameraButtons, DemographicPossibility };

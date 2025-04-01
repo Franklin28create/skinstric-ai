@@ -1,14 +1,18 @@
-import { CurrentDemographicsType, DemographicsType, userDemographicsType } from "@/types";
+import {
+  CurrentDemographicsType,
+  DemographicsType,
+  userDemographicsType,
+} from "@/types";
 
 const convertToPercentages = (demographics: DemographicsType) => {
-    const result = Object.fromEntries(
-        Object.entries(demographics).map(([key, value]) => {
-          const percentage = Math.floor(value * 100);
-          return [key, percentage];
-        })
-      );
-    
-      return result;
+  const result = Object.fromEntries(
+    Object.entries(demographics).map(([key, value]) => {
+      const percentage = Math.floor(value * 100);
+      return [key, percentage];
+    })
+  );
+
+  return result;
 };
 
 const getDefaultValues = (obj: CurrentDemographicsType) => {
@@ -18,11 +22,11 @@ const getDefaultValues = (obj: CurrentDemographicsType) => {
   };
 
   return {
-    "race": getFirstEntry(obj["race"]),
-    "age": getFirstEntry(obj["age"]),
-    "gender": getFirstEntry(obj["gender"]),
-  }
-}
+    race: getFirstEntry(obj["race"]),
+    age: getFirstEntry(obj["age"]),
+    gender: getFirstEntry(obj["gender"]),
+  };
+};
 
 const sortDemographics = (demographic: CurrentDemographicsType) => {
   const sortedEntries = Object.entries(demographic)
@@ -56,9 +60,8 @@ const setupDemographicData = (data: userDemographicsType | any) => {
   }
 
   return sortedDemographics;
-}
+};
 
-export {
-    getDefaultValues,
-    setupDemographicData
-}
+const getDemographic = (obj: any) => Object.keys(obj)[0];
+
+export { getDefaultValues, setupDemographicData, getDemographic };

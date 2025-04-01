@@ -8,9 +8,9 @@ type NavStatusTypes = {
 };
 
 type CameraStatusTypes = {
-isCameraOn: boolean,
-setIsCameraOn: (value: boolean) => void
-}
+  isCameraOn: boolean;
+  setIsCameraOn: (value: boolean) => void;
+};
 
 interface userInfoType {
   name: string;
@@ -36,6 +36,8 @@ type NavigationArrowsTypes = {
   setConfirmedDemographics?: React.Dispatch<
     React.SetStateAction<DemographicsState>
   >;
+  isAllDataConfirmed?: boolean;
+  setIsAllDataConfirmed?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type DemographicsState = {
@@ -115,6 +117,14 @@ interface DemographicPossibilityProps {
   setSelectedDemographics: React.Dispatch<React.SetStateAction<any>>;
 }
 
+type UserUploadInformationType = {
+  name: string,
+  location: string,
+  race: string,
+  age: string,
+  gender: string
+}
+
 export {
   status,
   NavStatusTypes,
@@ -135,5 +145,6 @@ export {
   userDemographicsType,
   DemographicsOptions,
   ModalProps,
-  CameraStatusTypes
+  CameraStatusTypes,
+  UserUploadInformationType
 };

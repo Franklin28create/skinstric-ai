@@ -1,14 +1,21 @@
 // @ts-nocheck
 "use client";
 
-import { NavigationArrows, CircularProgress } from "@/app/components";
-import { scanImage } from "@/lib/actions/user.actions";
-import { getDefaultValues, setupDemographicData } from "@/lib/utils/utils";
+import {
+  NavigationArrows,
+  CircularProgress,
+  DemographicPossibility,
+} from "@/app/components";
+import { scanImage, uploadDemographics } from "@/lib/actions/user.actions";
+import {
+  getDefaultValues,
+  setupDemographicData,
+  getDemographic,
+} from "@/lib/utils/utils";
 import { CurrentDemographicsType, DemographicsState } from "@/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { demographicOptions } from "@/constants";
-import DemographicPossibility from "@/app/components/DemographicPossibility";
 import DemographicOptionsButton from "@/app/components/DemographicOptionsButton";
 import { useUserInfo } from "@/app/store/useUserInfo";
 
@@ -16,10 +23,10 @@ const Demographics = () => {
   const router = useRouter();
   const [userDemographics, setUserDemographics] = useState<any>({});
   const [currentPercentage, setCurrentPercentage] = useState<number>();
-  const { image: savedImage } = useUserInfo();
+  const { image: savedImage, name, origin } = useUserInfo();
   const [currentDemographic, setCurrentDemographic] =
     useState<CurrentDemographicsType>("race");
-
+  const [isAllDataConfirmed, setIsAllDataConfirmed] = useState<boolean>(false);
   const [confirmedDemographics, setConfirmedDemographics] =
     useState<DemographicsState>({
       race: false,
@@ -66,11 +73,43 @@ const Demographics = () => {
     }
   }, [userDemographics, selectedDemographics[currentDemographic]]);
 
+  useEffect(() => {
+    if (
+      confirmedDemographics.age &&
+      confirmedDemographics.gender &&
+      confirmedDemographics.race
+    )
+      setIsAllDataConfirmed(true);
+  }, [confirmedDemographics]);
+
   const handleConfirm = () => {
     setConfirmedDemographics({
       ...confirmedDemographics,
       [currentDemographic]: true,
     });
+  };
+
+  const handleDemographicsUpload = async (data) => {
+    const { race, gender, age } = data;
+    if (!race || !gender || !age) {
+      return alert("Please confirm All fields");
+    }
+
+    const dataToUpload = Object.fromEntries(
+      Object.entries(data).map(([key, value]) => [key, getDemographic(value)])
+    );
+    try {
+      const response = await uploadDemographics({
+        ...dataToUpload,
+        name,
+        location: origin,
+      });
+
+      alert("Your information has been updated! Back to the home page...");
+      router.push("/");
+    } catch (error: any) {
+      console.error(error.error);
+    }
   };
 
   return (
@@ -159,7 +198,13 @@ const Demographics = () => {
       <NavigationArrows
         handleLeftArrowClick={() => router.back()}
         isConfirmButton
-        handleRightArrowClick={handleConfirm}
+        isAllDataConfirmed={isAllDataConfirmed}
+        setIsAllDataConfirmed={setIsAllDataConfirmed}
+        handleRightArrowClick={
+          isAllDataConfirmed
+            ? () => handleDemographicsUpload(selectedDemographics)
+            : handleConfirm
+        }
         setConfirmedDemographics={setConfirmedDemographics}
       />
     </div>

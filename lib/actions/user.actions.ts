@@ -1,4 +1,4 @@
-import { userInfoType } from "@/types";
+import { userInfoType, UserUploadInformationType } from "@/types";
 import axios from "axios";
 
 const addUser = async (userInfo: userInfoType) => {
@@ -46,4 +46,24 @@ const scanImage = async (image: string) => {
   }
 };
 
-export { addUser, scanImage };
+const uploadDemographics = async (data: UserUploadInformationType) => {
+  try {
+    const { name, location, gender, age, race } = data;
+    const response = await axios.put("/api/update-demographics", {
+      name: name.trim().toLowerCase(),
+      location: location.trim(),
+      gender,
+      age,
+      race,
+    });
+
+    return { message: response.data };
+  } catch (error: any) {
+    console.error(
+      "Error updating demographics: ",
+      error.response?.data || error.message
+    );
+  }
+};
+
+export { addUser, scanImage, uploadDemographics };

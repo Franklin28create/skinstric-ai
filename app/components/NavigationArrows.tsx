@@ -6,11 +6,15 @@ const NavigationArrows = ({
   leftButtonText = "Proceed",
   isConfirmButton = false,
   setConfirmedDemographics,
+  setIsAllDataConfirmed,
+  isAllDataConfirmed,
 }: NavigationArrowsTypes) => {
   return (
     <div
       className={`w-full flex justify-between ${
-        isConfirmButton ? "px-8 items-center max-sm:bg-primary-200 max-sm:py-2 max-sm:rounded-xl max-sm:flex-col max-sm:gap-2" : "px-4 absolute bottom-2 z-50 left-0"
+        isConfirmButton
+          ? "px-8 items-center max-sm:bg-primary-200 max-sm:py-2 max-sm:rounded-xl max-sm:flex-col max-sm:gap-2"
+          : "px-4 absolute bottom-2 z-50 left-0"
       }`}
     >
       <button className="intro_btn" onClick={handleLeftArrowClick}>
@@ -27,19 +31,20 @@ const NavigationArrows = ({
           <div className="flex gap-2">
             <button
               className="reset_btn"
-              onClick={() =>
+              onClick={() => {
                 // @ts-ignore
                 setConfirmedDemographics({
                   race: false,
                   gender: false,
                   age: false,
-                })
-              }
+                });
+                if (isAllDataConfirmed) setIsAllDataConfirmed(false)
+              }}
             >
               Reset
             </button>
             <button className="confirm_btn" onClick={handleRightArrowClick}>
-              Confirm
+              {isAllDataConfirmed ? "Upload Demographics" : "Confirm"}
             </button>
           </div>
         </>

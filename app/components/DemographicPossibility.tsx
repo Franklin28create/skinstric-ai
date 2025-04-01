@@ -8,7 +8,6 @@ const DemographicPossibility = ({
   confirmedDemographics,
   setSelectedDemographics,
 }: DemographicPossibilityProps) => {
-  console.log(confirmedDemographics[currentDemographic]);
   return (
     <button
     // @ts-ignore

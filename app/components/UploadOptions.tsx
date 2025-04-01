@@ -52,7 +52,6 @@ const Upload = ({
               alt="camera"
               id="camera_icon"
               onClick={() => {
-                console.log("this ran", showModal);
                 setShowModal(true);
               }}
             />
