@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useNavStatus } from "../store/useNavStatus";
+import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 
 const Navbar = ({ hideCodeButton = false }: { hideCodeButton?: boolean }) => {
   const { status, visible } = useNavStatus();
@@ -31,8 +32,14 @@ const Navbar = ({ hideCodeButton = false }: { hideCodeButton?: boolean }) => {
           [ {status || " ... "} ]
         </p>
       </div>
+
+      <div className="text-white flex gap-4 max-md:px-4 max-md:py-2">
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+      </div>
       {!hideCodeButton && (
-        <button className="bg-secondary px-[16px] py-[8px] text-white uppercase cursor-not-allowed">
+        <button className="bg-secondary px-[16px] py-[8px] text-white uppercase cursor-not-allowed hidden md:block">
           Enter Code
         </button>
       )}

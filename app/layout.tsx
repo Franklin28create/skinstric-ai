@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const RoobertTrial = localFont({
   src: [
-  { path: "/fonts/RoobertTRIAL-Regular.otf", weight: "300", style: "normal" },
-    { path: "/fonts/RoobertTRIAL-SemiBold.otf", weight: "500", style: "normal" },
+    { path: "/fonts/RoobertTRIAL-Regular.otf", weight: "300", style: "normal" },
+    {
+      path: "/fonts/RoobertTRIAL-SemiBold.otf",
+      weight: "500",
+      style: "normal",
+    },
     { path: "/fonts/RoobertTRIAL-Bold.otf", weight: "600", style: "normal" },
   ],
 });
@@ -21,12 +26,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${RoobertTrial.className} antialiased`}
-        >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`${RoobertTrial.className} antialiased`}>
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
