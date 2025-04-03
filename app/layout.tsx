@@ -26,7 +26,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        variables: {
+          colorText: "#fff",
+          colorPrimary: "#0E78F9",
+          colorBackground: "#1c1f2e",
+          colorInputBackground: "#252a41",
+          colorInputText: "#fff",
+        },
+        elements: {
+          socialButtons:
+            "bg-[#0E78F9] !text-[#fff] hover:bg-[#0c62c4] rounded-xl",
+          socialButtonsBlockButtonText: "#fff",
+        },
+      }}
+    >
       <html lang="en">
         <body className={`${RoobertTrial.className} antialiased`}>
           {children}
