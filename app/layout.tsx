@@ -30,10 +30,10 @@ export default function RootLayout({
       appearance={{
         variables: {
           colorText: "#fff",
-          colorPrimary: "#0E78F9",
-          colorBackground: "#1c1f2e",
-          colorInputBackground: "#252a41",
-          colorInputText: "#fff",
+            colorPrimary: "#0E78F9",
+            colorBackground: "#1c1f2e",
+            colorInputBackground: "#252a41",
+            colorInputText: "#fff",
         },
         elements: {
           socialButtons:

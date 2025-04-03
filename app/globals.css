@@ -67,3 +67,7 @@
 .auth_btn {
   @apply bg-secondary px-6 py-4 rounded-md hover:bg-primary-200 hover:text-secondary transition-all duration-400
 }
+
+.cl-button {
+  @apply !text-white
+}
